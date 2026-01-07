@@ -13,7 +13,7 @@ import axios from 'axios';
 const pascal = (s: string) =>
   s.replace(/(^\w|[-_]\w)/g, (m) => m.replace(/[-_]/, '').toUpperCase());
 
-const BASE_URL = process.env.NEXT_PUBLIC_AUTH_BASE_URL!;
+const BASE_URL = process.env.NEXT_PUBLIC_AUTH_BASE_URL || "http://95.216.121.250:800/auth/swagger.json";
 
 const ensureFeatureStructure = (feature: string) => {
   const base = path.resolve(`src/features/${feature}`);
