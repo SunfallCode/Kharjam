@@ -133,8 +133,8 @@ const ProfileIndex = () => {
         <span>{t("profile-cards-btn")}</span>
       </Button>
       <DrawerComponent
-        description="کارت های بانکی خود را مدیریت کنید"
-        title="مدیریت کارت ها"
+        description={t("drawer-credit-cards-description")}
+        title={t("drawer-credit-cards-title")}
         open={isDrawerOpen}
         setOpen={setIsDrawerOpen}
         content={<CreditCardManagement />}

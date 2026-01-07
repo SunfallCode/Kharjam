@@ -22,5 +22,18 @@
   "profilePhoneSchema": "Phone number is required",
   "profilePhoneRequired": "Phone number cannot be empty",
   "profilePhoneInvalid": "Please enter a valid phone number",
-  "profileEmailSchema": "Please enter a valid email address"
+  "profileEmailSchema": "Please enter a valid email address",
+  "credit-cards-title": "Your Credit Card",
+  "credit-cards-empty": "No card added",
+  "credit-cards-empty-desc": "Click to add a new card",
+  "credit-cards-add-new": "Add New Card",
+  "credit-cards-edit": "Edit Card",
+  "credit-cards-save": "Save Card",
+  "credit-cards-cancel": "Cancel",
+  "credit-cards-card-holder": "Card Holder Name",
+  "credit-cards-card-number": "Card Number (16 digits)",
+  "credit-cards-card-holder-placeholder": "card holder name",
+  "drawer-credit-cards-title": "Card Management",
+  "drawer-credit-cards-description": "Manage your bank cards"
+
 }

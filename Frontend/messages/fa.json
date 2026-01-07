@@ -22,6 +22,18 @@
   "profilePhoneSchema": "شماره موبایل نمیتواند خالی باشد",
   "profilePhoneRequired": "شماره موبایل نمی‌تواند خالی باشد",
   "profilePhoneInvalid": "لطفاً شماره موبایل معتبر وارد کنید",
-  "profileEmailSchema": "آدرس ایمیل درستی وارد کنید."
+  "profileEmailSchema": "آدرس ایمیل درستی وارد کنید.",
+  "credit-cards-title": "کارت اعتباری شما",
+  "credit-cards-empty": "هیچ کارتی اضافه نشده",
+  "credit-cards-empty-desc": "برای افزودن کارت جدید کلیک کنید",
+  "credit-cards-add-new": "افزودن کارت جدید",
+  "credit-cards-edit": "ویرایش کارت",
+  "credit-cards-save": "ذخیره کارت",
+  "credit-cards-cancel": "انصراف",
+  "credit-cards-card-holder": "نام صاحب کارت",
+  "credit-cards-card-number": "شماره کارت (16 رقم)",
+  "credit-cards-card-holder-placeholder": "نام صاحب کارت",
+  "drawer-credit-cards-title": "مدیریت کارت ها",
+  "drawer-credit-cards-description": "کارت های بانکی خود را مدیریت کنید"
 
 }
