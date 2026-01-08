@@ -31,6 +31,8 @@ class UserOut(BaseModel):
     card_holder_name: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+    pending_updates: Optional[list[str]] = None
+    message: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 

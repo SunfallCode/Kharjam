@@ -39,10 +39,17 @@ class GoogleDriveService:
                 creds = None
         
         # Refresh if expired
+        # Note: Access tokens expire after ~1 hour (Google security requirement)
+        # Refresh tokens can be long-lived if app is in production status
+        # For testing apps, refresh tokens expire after 7 days
         if creds and creds.expired and creds.refresh_token:
             try:
                 creds.refresh(Request())
-            except Exception:
+                # Save refreshed token back to file
+                with open(TOKEN_PATH, 'w') as token:
+                    token.write(creds.to_json())
+            except Exception as e:
+                # Refresh token may have expired or been revoked
                 creds = None
         
         # Re-authenticate if needed

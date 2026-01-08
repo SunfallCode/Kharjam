@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Generate Google Drive OAuth token.json"""
+"""Generate Google Drive OAuth token.json
+
+IMPORTANT NOTES ABOUT TOKEN EXPIRATION:
+- Access tokens ALWAYS expire (~1 hour) - this is a Google security requirement
+- Refresh tokens can be long-lived:
+  * Testing apps: Refresh tokens expire after 7 days
+  * Production apps: Refresh tokens can last indefinitely if used regularly
+  * Refresh tokens expire if unused for 6 months
+- The code automatically refreshes expired access tokens using the refresh token
+- For truly non-expiring access, consider using Service Accounts (server-to-server only)
+"""
 import os
 import sys
 import json
