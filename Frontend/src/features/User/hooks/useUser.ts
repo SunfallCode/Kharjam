@@ -1,14 +1,17 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as controller from "../helpers/controller";
+import * as api from "../helpers/api";
 import { useTranslations } from "next-intl";
 import { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { createProfileSchema, ProfileFormData } from "../interfaces/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { notify } from "@/components/ui/sonner";
 
 export const useUser = () => {
   const t = useTranslations();
   const fileInputRef = useRef<any>(null);
+  const queryClient = useQueryClient();
 
   const [preview, setPreview] = useState("/character.png");
 
@@ -47,6 +50,8 @@ export const useUser = () => {
       name: getProfileData?.name ?? "",
       email: getProfileData?.email ?? "",
       phone_number: getProfileData?.phone_number ?? "",
+      card_holder_name: getProfileData?.card_holder_name ?? "",
+      card_number: getProfileData?.card_number ?? "",
     },
   });
 
@@ -57,8 +62,41 @@ export const useUser = () => {
         email: watch("email"),
         phone_number: watch("phone_number"),
         avatar: watch("avatar"),
+        card_holder_name: watch("card_holder_name"),
+        card_number: watch("card_number"),
       })
     );
+
+  const { mutate: updateCardMutate, isPending: updateCardIsPending } = useMutation({
+    mutationFn: async (data: { cardHolderName: string; cardNumber: string }) => {
+      // Create FormData for card update only
+      const formData = new FormData();
+      formData.append('card_holder_name', data.cardHolderName);
+      formData.append('card_number', data.cardNumber);
+
+      return api.getUserService().updateProfileApi(formData);
+    },
+    onSuccess: (res: any) => {
+      notify.success(res.data.message);
+      queryClient.invalidateQueries({
+        queryKey: ["getProfileDataApi"]
+      });
+    },
+    onError: (error: any) => {
+      notify.error(error.message);
+    }
+  });
+
+  const handleCardUpdate = (cardHolderName: string, cardNumber: string, onSuccess?: () => void) => {
+    updateCardMutate(
+      { cardHolderName, cardNumber },
+      {
+        onSuccess: () => {
+          if (onSuccess) onSuccess();
+        }
+      }
+    );
+  };
 
   return {
     t,
@@ -75,5 +113,6 @@ export const useUser = () => {
     updateProfileMutate,
     updateProfileIsPending,
     getProfileDataIsPending,
+    handleCardUpdate,
   };
 };

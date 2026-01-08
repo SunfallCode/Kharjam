@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useLocale } from "@/utils/useLocaleUtil";
@@ -55,14 +55,35 @@ const detectBank = (cardNumber: string): BankInfo | null => {
   return null;
 };
 
-export const CreditCardManagement: React.FC = () => {
+interface CreditCardManagementProps {
+  cardHolderName?: string | null;
+  cardNumber?: string | null;
+  onCardUpdate: (cardHolderName: string, cardNumber: string, onSuccess?: () => void) => void;
+  onSuccess: () => void;
+}
+
+export const CreditCardManagement: React.FC<CreditCardManagementProps> = ({
+  cardHolderName,
+  cardNumber,
+  onCardUpdate,
+  onSuccess,
+}) => {
   const { messages } = useLocale();
 
-  const [card, setCard] = useState<CreditCard | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [newCardName, setNewCardName] = useState("");
   const [newCardNumber, setNewCardNumber] = useState("");
   const [detectedBank, setDetectedBank] = useState<BankInfo | null>(null);
+  const [isUpdatingCard, setIsUpdatingCard] = useState(false);
+
+  // Create card object from API data
+  const card: CreditCard | null = cardHolderName && cardNumber ? {
+    id: "1", // We only support one card for now
+    name: cardHolderName,
+    number: cardNumber,
+    bank: detectBank(cardNumber)?.name,
+    logo: detectBank(cardNumber)?.logo,
+  } : null;
 
   const handleCardNumberChange = (value: string) => {
     const formatted = formatCardNumber(value);
@@ -76,19 +97,17 @@ export const CreditCardManagement: React.FC = () => {
       return;
     }
 
-    const savedCard: CreditCard = {
-      id: card?.id || Date.now().toString(),
-      name: newCardName.trim(),
-      number: newCardNumber,
-      bank: detectedBank?.name,
-      logo: detectedBank?.logo,
-    };
-
-    setCard(savedCard);
-    setNewCardName("");
-    setNewCardNumber("");
-    setDetectedBank(null);
-    setIsEditing(false);
+    const cleanCardNumber = newCardNumber.replace(/\s/g, "");
+    setIsUpdatingCard(true);
+    onCardUpdate(newCardName.trim(), cleanCardNumber, () => {
+      // Success callback
+      setIsUpdatingCard(false);
+      setIsEditing(false);
+      setNewCardName("");
+      setNewCardNumber("");
+      setDetectedBank(null);
+      onSuccess();
+    });
   };
 
   const startEditing = () => {
@@ -97,8 +116,12 @@ export const CreditCardManagement: React.FC = () => {
       setNewCardNumber(card.number);
       const bank = detectBank(card.number);
       setDetectedBank(bank);
-      setIsEditing(true);
+    } else {
+      setNewCardName("");
+      setNewCardNumber("");
+      setDetectedBank(null);
     }
+    setIsEditing(true);
   };
 
   const cancelEdit = () => {
@@ -142,12 +165,13 @@ export const CreditCardManagement: React.FC = () => {
               disabled={
                 !newCardName.trim() ||
                 newCardNumber.replace(/\s/g, "").length !== 16 ||
-                !detectedBank
+                !detectedBank ||
+                isUpdatingCard
               }
               className="flex-1"
               size="lg"
             >
-              {messages["credit-cards-save"]}
+              {isUpdatingCard ? messages["credit-cards-saving"] || "Saving..." : messages["credit-cards-save"]}
             </Button>
             <Button
               onClick={cancelEdit}
