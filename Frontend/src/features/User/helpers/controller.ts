@@ -24,10 +24,12 @@ export const GetProfileApiController = () =>
          // Create FormData for file upload
          const formData = new FormData();
 
-         // Add text fields
-         if (body.name !== undefined && body.name !== null) formData.append('name', body.name);
-         if (body.email !== undefined && body.email !== null) formData.append('email', body.email);
-         if (body.phone_number !== undefined && body.phone_number !== null) formData.append('phone_number', body.phone_number);
+        // Add text fields
+        if (body.name !== undefined && body.name !== null) formData.append('name', body.name);
+        if (body.email !== undefined && body.email !== null) formData.append('email', body.email);
+        if (body.phone_number !== undefined && body.phone_number !== null) formData.append('phone_number', body.phone_number);
+        if (body.card_holder_name !== undefined && body.card_holder_name !== null) formData.append('card_holder_name', body.card_holder_name);
+        if (body.card_number !== undefined && body.card_number !== null) formData.append('card_number', body.card_number);
 
          // Add file if exists
          if (body.avatar) {

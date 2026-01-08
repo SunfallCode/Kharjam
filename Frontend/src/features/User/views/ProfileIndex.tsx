@@ -24,6 +24,8 @@ const ProfileIndex = () => {
     fileInputRef,
     updateProfileMutate,
     updateProfileIsPending,
+    getProfileData,
+    handleCardUpdate,
   } = useUser();
 
   return (
@@ -137,7 +139,14 @@ const ProfileIndex = () => {
         title={t("drawer-credit-cards-title")}
         open={isDrawerOpen}
         setOpen={setIsDrawerOpen}
-        content={<CreditCardManagement />}
+        content={
+          <CreditCardManagement
+            cardHolderName={getProfileData?.card_holder_name}
+            cardNumber={getProfileData?.card_number}
+            onCardUpdate={handleCardUpdate}
+            onSuccess={() => setIsDrawerOpen(false)}
+          />
+        }
       />
     </div>
   );
