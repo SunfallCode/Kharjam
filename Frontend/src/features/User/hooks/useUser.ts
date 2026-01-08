@@ -17,10 +17,10 @@ export const useUser = () => {
   );
 
   useEffect(() => {
-    if (getProfileData?.profile_image) {
-      setPreview(getProfileData.profile_image);
+    if (getProfileData?.avatar_url) {
+      setPreview(getProfileData.avatar_url)
     }
-  }, [getProfileData?.profile_image]);
+  }, [getProfileData?.avatar_url]);
 
   const handleClick = () => {
     fileInputRef.current?.click();
@@ -52,13 +52,13 @@ export const useUser = () => {
 
   const { mutate: updateProfileMutate, isPending: updateProfileIsPending } =
     useMutation(
-    controller.UpdateProfileApiController({
-      name: watch('name'),
-      email: watch('email'),
-      phone_number: watch('phone_number'),
-      avatar: watch('avatar'),
-    })
-  );
+      controller.UpdateProfileApiController({
+        name: watch("name"),
+        email: watch("email"),
+        phone_number: watch("phone_number"),
+        avatar: watch("avatar"),
+      })
+    );
 
   return {
     t,
@@ -75,6 +75,5 @@ export const useUser = () => {
     updateProfileMutate,
     updateProfileIsPending,
     getProfileDataIsPending,
-
   };
 };
