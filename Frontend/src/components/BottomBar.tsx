@@ -15,11 +15,13 @@ function BottomBar() {
   const pathToNavId: Record<string, string> = {
     "/panel/dashboard": "Home",
     "/panel/profile": "profile",
+    "/panel/group": "groups",
   };
 
   const navIdToPath: Record<string, string> = {
     "Home": "/panel/dashboard",
     "profile": "/panel/profile",
+    "groups": "/panel/group",
   };
 
   useEffect(() => {
